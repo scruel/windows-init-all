@@ -1,0 +1,11 @@
+modules/install_apps.ps1
+modules/install_apps_tweaks.psm1
+modules/install_drives.ps1
+resources/configurations/bandzip.bat
+resources/configurations/eudic/
+resources/configurations/potplayer/
+resources/configurations/resilio sync/
+resources/configurations/thunder/
+resources/install/
+resources/desktop_background.jpg
+resources/desktop_background_w.jpg
