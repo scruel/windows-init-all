@@ -30,6 +30,7 @@ $tweaks = @(
 	"DisableUpdateRestart",         # "EnableUpdateRestart",
 	"EnableBlueScreenDetails",      # "DisableBlueScreenDetails",
 	"RemoveENKeyboard",             # "AddENKeyboard",
+	"DisableKeyboardRemoteAdd",     # "EnableKeyboardRemoteAdd"
 	"SetWUDeliveryOptimization",    # "UnsetWUDeliveryOptimization",
 	# "DisableWinLogonReport",        # "EnableWinLogonReport",
 	# "DisableDefender",            # "EnableDefender",

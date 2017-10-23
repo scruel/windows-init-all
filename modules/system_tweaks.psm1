@@ -122,6 +122,7 @@ Function DisableStartSuggestions
 {
 	Write-Host "Disabling Start Menu suggestions..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338388Enabled" -Type DWord -Value 0
 	(Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -ErrorAction SilentlyContinue).PSObject.Properties | ForEach-Object {
       If($_.Name -Match 'SubscribedContent'){
 	    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name $_.Name -Type DWord -Value 0
@@ -134,6 +135,7 @@ Function EnableStartSuggestions
 {
 	Write-Host "Enabling Start Menu suggestions..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338388Enabled" -Type DWord -Value 1
 	(Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -ErrorAction SilentlyContinue).PSObject.Properties | ForEach-Object {
       If($_.Name -Match 'SubscribedContent'){
 	    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name $_.Name -Type DWord -Value 1
@@ -331,6 +333,20 @@ Function RemoveENKeyboard {
 	Write-Host "Removing secondary en-US keyboard..."
 	$langs = Get-WinUserLanguageList
 	Set-WinUserLanguageList ($langs | ? {$_.LanguageTag -ne "en-US"}) -Force -ea SilentlyContinue
+}
+# Fix the issues that windows automatically adding EN-US keyboard
+Function DisableKeyboardRemoteAdd {
+	Write-Host "Disabling keyboard preload..."
+	Remove-Item -Path "HKCU:\Keyboard Layout\Preload" -Force -ea SilentlyContinue
+	Remove-Item -Path "Registry::HKU\.DEFAULT\Keyboard Layout\Preload" -Force -ea SilentlyContinue
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout" -Name "IgnoreRemoteKeyboardLayout" -Type DWORD -Value 0
+}
+
+Function EnableKeyboardRemoteAdd {
+	Write-Host "Disabling keyboard preload..."
+	Remove-Item -Path "HKCU:\Keyboard Layout\Preload" -Force -ea SilentlyContinue
+	Remove-Item -Path "Registry::HKU\.DEFAULT\Keyboard Layout\Preload" -Force -ea SilentlyContinue
+	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout" -Name "IgnoreRemoteKeyboardLayout" -ea SilentlyContinue
 }
 
 # Show Task Manager details
