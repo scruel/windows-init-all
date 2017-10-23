@@ -88,29 +88,25 @@ Function DisableUsbLikelyAutorun {
 	# Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NolowDiskSpaceChecks" -Type DWord -Value 1
 }
 
-Function EnableBlueLight
-{
+Function EnableBlueLight {
 	Write-Host "Enabling blue light..."
 	Import-Module -DisableNameChecking $PSScriptRoot\Set-BlueLight.psm1
 	Set-BlueLight -EnableAutomaticSchedule
 }
 
-Function DisableBlueLight
-{
+Function DisableBlueLight {
 	Write-Host "Disabling blue light..."
 	Import-Module -DisableNameChecking $PSScriptRoot\Set-BlueLight.psm1
 	SSet-BlueLight -DisableBlueLight
 }
 
-Function EnableAutoDiskCleanSensor
-{
+Function EnableAutoDiskCleanSensor {
 	Write-Host "Enable Auto Disk Clean Sensor..."
 	New-Item-IfNotExist -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy" | Out-Null
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy" -Name "01" -Type DWord -Value 1
 }
 
-Function DisableAutoCleanSensor
-{
+Function DisableAutoCleanSensor {
 	Write-Host "Disable Auto Disk Clean Sensor..."
 	New-Item-IfNotExist -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy" | Out-Null
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy" -Name "01" -Type DWord -Value 0
@@ -118,26 +114,24 @@ Function DisableAutoCleanSensor
 
 # Disable Start Menu suggestions
 # 禁止在开始菜单中推荐应用
-Function DisableStartSuggestions
-{
+Function DisableStartSuggestions {
 	Write-Host "Disabling Start Menu suggestions..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 0
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338388Enabled" -Type DWord -Value 0
 	(Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -ErrorAction SilentlyContinue).PSObject.Properties | ForEach-Object {
-      If($_.Name -Match 'SubscribedContent'){
+      If($_.Name -Match 'SubscribedContent') {
 	    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name $_.Name -Type DWord -Value 0
       }
     }
 }
 
 # Enable Start Menu suggestions
-Function EnableStartSuggestions
-{
+Function EnableStartSuggestions {
 	Write-Host "Enabling Start Menu suggestions..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 1
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338388Enabled" -Type DWord -Value 1
 	(Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -ErrorAction SilentlyContinue).PSObject.Properties | ForEach-Object {
-      If($_.Name -Match 'SubscribedContent'){
+      If($_.Name -Match 'SubscribedContent') {
 	    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name $_.Name -Type DWord -Value 1
       }
     }
@@ -256,8 +250,7 @@ Function SetP2PUpdateInternet {
 }
 
 #禁止乱下 uwp 应用
-Function DisableDownloadSuggestedApps
-{
+Function DisableDownloadSuggestedApps {
 	Write-Host "Disabling download suggested Apps..."
 	New-Item-IfNotExist "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" | Out-Null
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "ContentDeliveryAllowed" -Type DWord -Value 0
@@ -544,8 +537,7 @@ Function UninstallLinuxSubsystem {
 }
 
 # Install Hyper-V - Not applicable to Home
-Function InstallHyperV
-{
+Function InstallHyperV {
 	Write-Host "Installing Hyper-V..."
 	If ((Get-WmiObject -Class "Win32_OperatingSystem").Caption -like "*Server*") {
 		Install-WindowsFeature -Name "Hyper-V" -IncludeManagementTools -WarningAction SilentlyContinue | Out-Null
@@ -555,8 +547,7 @@ Function InstallHyperV
 }
 
 # Uninstall Hyper-V - Not applicable to Home
-Function UninstallHyperV
-{
+Function UninstallHyperV {
 	Write-Host "Uninstalling Hyper-V..."
 	If ((Get-WmiObject -Class "Win32_OperatingSystem").Caption -like "*Server*") {
 		Uninstall-WindowsFeature -Name "Hyper-V" -IncludeManagementTools -WarningAction SilentlyContinue | Out-Null
@@ -580,8 +571,7 @@ Function UnsetKillWatingToZero {
 }
 
 # Set system to high-performance power plan
-Function SetPowerHighPerformance
-{
+Function SetPowerHighPerformance {
 	Write-Host "Setting system to high-performance power plan..."
 	# active high-performance power plan
 	powercfg.exe -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c

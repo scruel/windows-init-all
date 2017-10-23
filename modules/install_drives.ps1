@@ -24,8 +24,7 @@ $tweaks = @(
 #region     dirvers
 Write-Host "Installing driver 'REALTEK Card Reader'..."
 
-if (!(Is-AppInstalled  -MatchAttr "DisplayName" -Regex "Intel\(R\) Processor Graphics"))
-{
+if (!(Is-AppInstalled  -MatchAttr "DisplayName" -Regex "Intel\(R\) Processor Graphics")) {
     Install-App -FilePath "K:\Program\commonUse\drivers\vga_intel_10.18.10.3496_0x98020f83_w818764\setup.exe"  -ArgumentList "-s" -Wait -MatchAttr "DisplayName" -Regex "Intel\(R\) Processor Graphics"
     Restart
 }

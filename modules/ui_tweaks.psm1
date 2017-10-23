@@ -34,16 +34,14 @@ Function SetVisualFXAppearance {
 }
 
 # 标题栏显示主颜色
-Function EnableTitleBarColor
-{
+Function EnableTitleBarColor {
 	Write-Host "Enabling TitleBar color..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "ColorPrevalence" -Type DWord -Value 1
 	New-Item-IfNotExist "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" | Out-Null
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 1
 }
 
-Function DisableTitleBarColor
-{
+Function DisableTitleBarColor {
 	Write-Host "Disabling TitleBar color..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "ColorPrevalence" -Type DWord -Value 0
 	New-Item-IfNotExist "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" | Out-Null
@@ -63,14 +61,12 @@ Function ShowTaskView {
 }
 
 # 自动从背景选取颜色
-Function EnableAutoColorization
-{
+Function EnableAutoColorization {
 	Write-Host "Enable AutoColorization..."
 	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "AutoColorization" -Type DWord -Value 1
 }
 
-Function DisableAutoColorization
-{
+Function DisableAutoColorization {
 	Write-Host "Disabling AutoColorization..."
 	Remove-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "AutoColorization" -ea SilentlyContinue
 }
@@ -87,14 +83,12 @@ Function SetExplorerQuickAccess {
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "LaunchTo" -ErrorAction SilentlyContinue
 }
 
-Function DisableXboxRecordTips
-{
+Function DisableXboxRecordTips {
 	Write-Host "Disabling Xbox Record Tips..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\GameBar" -Name "ShowStartupPanel" -Type DWord -Value 0
 }
 
-Function EnableXboxRecordTips
-{
+Function EnableXboxRecordTips {
 	Write-Host "Enabling Xbox Record Tips..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\GameBar" -Name "ShowStartupPanel" -Type DWord -Value 1
 }
@@ -255,8 +249,7 @@ Function HideHiddenFiles {
 }
 
 # 标题栏颜色优化
-Function SetTitleBarInactiveColor
-{
+Function SetTitleBarInactiveColor {
 	Write-Host "Setting TitleBar inactiveColor hotkey..."
 	# 当前窗口颜色-优先
 	New-Item-IfNotExist "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent" | Out-Null
@@ -267,8 +260,7 @@ Function SetTitleBarInactiveColor
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "AccentColorInactive" -Type DWord -Value 0xffb47841
 }
 
-Function UnSetTitleBarInactiveColor
-{
+Function UnSetTitleBarInactiveColor {
 	Write-Host "Unsetting TitleBar inactiveColor hotkey..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent" -Name "AccentColorMenu" -ea SilentlyContinue
 	# 当前窗口颜色
@@ -277,62 +269,53 @@ Function UnSetTitleBarInactiveColor
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "AccentColorInactive" -ea SilentlyContinue
 }
 <# deprecated TipbandDesiredVisibility
-Function EnabledTaskbarAvoidance
-{
+Function EnabledTaskbarAvoidance {
 	Write-Host "Enabling Taskbar Avoidance..."
 	New-Item-IfNotExist "HKLM:\Software\Microsoft\StigRegKey\Typing\TaskbarAvoidanceEnabled" | Out-Null
 	Set-ItemProperty -Path "HKLM:\Software\Microsoft\StigRegKey\Typing\TaskbarAvoidanceEnabled" -Name "Enable" -Type DWord -Value 1
 }
 
-Function DisabledTaskbarAvoidance
-{
+Function DisabledTaskbarAvoidance {
 	Write-Host "Disabling Taskbar Avoidance..."
 	New-Item-IfNotExist "HKLM:\Software\Microsoft\StigRegKey\Typing\TaskbarAvoidanceEnabled" | Out-Null
 	Set-ItemProperty -Path "HKLM:\Software\Microsoft\StigRegKey\Typing\TaskbarAvoidanceEnabled" -Name "Enable" -Type DWord -Value 0
 }
 #>
-Function SetUWPStartingAutoColorization
-{
+Function SetUWPStartingAutoColorization {
 	Write-Host "Setting UWP Starting AutoColorization..."
 	New-Item-IfNotExist "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\SplashScreen\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge" | Out-Null
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\Microsoft.WindowsStore_8wekyb3d8bbwe\SplashScreen\Microsoft.WindowsStore_8wekyb3d8bbwe!App" -Name "BackgroundColor" -Type String -Value "transparent"
 }
 
-Function UnsetUWPStartingAutoColorization
-{
+Function UnsetUWPStartingAutoColorization {
 	Write-Host "Unsetting UWP Starting AutoColorization..."
 	New-Item-IfNotExist "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\SplashScreen\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge" | Out-Null
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\Microsoft.WindowsStore_8wekyb3d8bbwe\SplashScreen\Microsoft.WindowsStore_8wekyb3d8bbwe!App" -Name "BackgroundColor" -Type String -Value "#D0D0D0"
 }
 
-Function DisabledLinkDescriptionAdd
-{
+Function DisabledLinkDescriptionAdd {
 	Write-Host "Disabling link description add..."
 	New-Item-IfNotExist "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" | Out-Null
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "Link" -Type Binary -Value ([byte[]](0x00,0x00,0x00,0x00))
 }
 
 # TODO
-Function EnabledLinkDescriptionAdd
-{
+Function EnabledLinkDescriptionAdd {
 	Write-Host "Enabling link description add..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -ea SilentlyContinue 
 }
 
-Function SetIncreaseMultipleInvokePromptMinimum
-{
+Function SetIncreaseMultipleInvokePromptMinimum {
 	Write-Host "Setting multiple invoke prompt minimum to 10..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "MultipleInvokePromptMinimum" -Type DWord -Value 10
 }
 
-Function UnsetMultipleInvokePromptMinimum
-{
+Function UnsetMultipleInvokePromptMinimum {
 	Write-Host "Unsetting multiple invoke prompt minimum to 0..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "MultipleInvokePromptMinimum" -ea SilentlyContinue
 }
 
-Function SetShellWindowAlpha
-{
+Function SetShellWindowAlpha {
 	# CMD & PowerShell 透明美化
 	Set-ItemProperty -Path "HKCU:\Console" -Name "WindowAlpha" -Type DWord -Value "0x000000e0"
 	Set-ItemProperty -Path "HKCU:\Console\%SystemRoot%_SysWOW64_WindowsPowerShell_v1.0_powershell.exe" -Name "WindowAlpha" -Type DWord -Value "0x000000e0"
@@ -340,15 +323,13 @@ Function SetShellWindowAlpha
 }
 
 
-Function SetTaskBarWeek
-{
+Function SetTaskBarWeek {
 	# 任务栏日期显示“星期几”
 	Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name "sLongDate" -Type String -Value "yyyy'年'M'月'd'日' dddd"
 	Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name "sShortDate" -Type String -Value "yyyy/M/d ddd"
 }
 
-Function UnsetTaskBarWeek
-{
+Function UnsetTaskBarWeek {
 	# 任务栏日期显示“星期几”
 	Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name "sLongDate" -Type String -Value "yyyy'年'M'月'd'日'"
 	Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name "sShortDate" -Type String -Value "yyyy/M/d"

@@ -3,22 +3,19 @@
 ##########
 
 # 小娜快捷键启动
-Function EnableCortanaHotKey
-{
+Function EnableCortanaHotKey {
 	Write-Host "Enabling Cortana hotkey..."
 	New-Item-IfNotExist "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" | Out-Null
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "VoiceShortcut" -Type DWord -Value 1
 }
 
-Function DisableCortanaHotKey
-{
+Function DisableCortanaHotKey {
 	Write-Host "Disabling Cortana hotkey..."
 	New-Item-IfNotExist "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" | Out-Null
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "VoiceShortcut" -Type DWord -Value 0
 }
 
-Function SetNotepadConfigs
-{
+Function SetNotepadConfigs {
 	Write-Host "Setting Notepad configs..."
 	New-Item-IfNotExist "HKCU:\Software\Microsoft\Notepad" | Out-Null
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Notepad" -Name "fWrap" -Type DWord -Value 1
@@ -26,8 +23,7 @@ Function SetNotepadConfigs
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Notepad" -Name "fSaveWindowPositions" -Type DWord -Value 1
 }
 
-Function UnsetNotepadConfigs
-{
+Function UnsetNotepadConfigs {
 	Write-Host "Unsetting Notepad configs..."
 	New-Item-IfNotExist "HKCU:\Software\Microsoft\Notepad" | Out-Null
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Notepad" -Name "fWrap" -Type DWord -Value 0
@@ -247,12 +243,10 @@ Function InstallThirdPartyBloat {
 }
 
 
-Function EnableNetFx35
-{
+Function EnableNetFx35 {
     # Dism /online /get-features
     Write-Host "Enabling Netfx35..."
-    if (!((Get-WindowsOptionalFeature –Online -FeatureName "NetFx3").State -eq "enabled"))
-    {
+    if (!((Get-WindowsOptionalFeature –Online -FeatureName "NetFx3").State -eq "enabled")) {
 	    # for better visual
 	    Enable-WindowsOptionalFeature -Online -FeatureName "NetFx3" -NoRestart -WarningAction SilentlyContinue | Out-Null
 	    # for more compatibility, use the following command.

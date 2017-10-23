@@ -1,6 +1,5 @@
-﻿function Set-Wallpaper
-{
-	param(
+﻿function Set-Wallpaper {
+	param (
 		[Parameter(Mandatory=$true)]
 		$Path
 	)
@@ -11,8 +10,7 @@
 	using System;
 	using System.Runtime.InteropServices;
 	using Microsoft.Win32;
-	namespace Wallpaper
-	{
+	namespace Wallpaper {
 		public class Setter {
 			public const int SetDesktopWallpaper = 20;
 			public const int UpdateIniFile = 0x01;
@@ -34,8 +32,7 @@
 }
 
 # Enhance wallpaper quality (between 60 and 100)
-function Enhance-WallpaperQuality
-{
+function Enhance-WallpaperQuality {
 	Write-Host "Enhancing wallpaper quality..."
 	Set-ItemProPerty -Path "HKCU:\Control Panel\Desktop" -Name "JPEGImportQuality" -Value "0x0000064" -Type Dword
 	Remove-Item -Path "$env:APPDATA\Microsoft\Windows\Themes\TranscodedWallpaper" -Force -Recurse  -ea SilentlyContinue

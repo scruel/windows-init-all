@@ -43,8 +43,7 @@ SetPowerHighPerformance
 
 ## some softwares ##
 #region    office install
-if (!(Is-AppInstalled -Regex "^Office16"))
-{
+if (!(Is-AppInstalled -Regex "^Office16")) {
 	Write-Host "Installing Office16..."
     $isopath = Mount-DiskImage -ImagePath "K:\Program\commonUse\office\SW_DVD5_Office_Professional_Plus_2016_64Bit_ChnSimp_MLF_X20-42426.ISO" -PassThru
     $isopath = ($isopath | Get-Volume).DriveLetter + ":\SETUP.EXE"

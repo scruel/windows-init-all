@@ -3,18 +3,15 @@ $softwares = $softwares + (Get-ItemProperty HKLM:\Software\Microsoft\Windows\Cur
 $softwares = $softwares + (Get-ItemProperty HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*)
 $softwares
 # Relaunch the script with administrator privileges
-Function RequireAdmin
-{
-	param
-	(
+Function RequireAdmin {
+	param (
 		[Parameter(Mandatory=$True)]
 		$Path,
 		$WorkingDirectory,
 		[Parameter(Mandatory=$False)]
         $Args
 	)
-	If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator"))
-	{
+	If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
 		Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$Path`" $Args" -WorkingDirectory $WorkingDirectory -Verb RunAs
 		Exit
 	}
@@ -35,8 +32,7 @@ Function RestartExplorer {
 
 # Function Write-Host-WithTime
 
-Function WaitForKey
-{
+Function WaitForKey {
 	Write-Host
 	Write-Host "Press any key to continue..." -ForegroundColor Black -BackgroundColor White
 	[Console]::ReadKey($True) | Out-Null
@@ -44,91 +40,76 @@ Function WaitForKey
 
 
 # Check If the specified App is Installed or Not
-function Is-AppInstalled
-{
-    param
-	(
+function Is-AppInstalled {
+    param (
 		[Parameter(Mandatory=$False)]
         $MatchAttr = "PSChildName",
 		$Regex = $null
     )
 	
-    If (!$softwares)
-	{
+    If (!$softwares) {
         Write-Error "Exception: softwares 变量为空"
         exit
     }
     
-	If ($Regex -And ($softwares | Where-Object $MatchAttr -Match "$Regex" -ErrorAction SilentlyContinue))
-	{
+	If ($Regex -And ($softwares | Where-Object $MatchAttr -Match "$Regex" -ErrorAction SilentlyContinue)) {
         # $softwares | Where-Object $MatchAttr -Match "$Regex" -ErrorAction SilentlyContinue
         return $True;
-    }Else
-	{
+    }
+	Else {
         return $False;
     }
 }
 
-function Is-RegistryExist
-{
-	param
-	(
+function Is-RegistryExist {
+	param (
 		[Parameter(Mandatory=$True)]
 		$Path,
 		$EntryName
 	)
 	
-	If (!(Test-Path "$path"))
-	{
+	If (!(Test-Path "$path")) {
 		return $False
 	}
 	
 	return ((Get-Item $Path).GetValueNames() -contains "$EntryName")
 }
 
-function Start-Process-IfNotRunning
-{
-	param(
+function Start-Process-IfNotRunning {
+	param (
 		[Parameter(Mandatory=$True)]
 		$Name,
 		$FilePath
 	)
 	
-	If (!(Get-Process -Name $Name -ErrorAction SilentlyContinue))
-	{
+	If (!(Get-Process -Name $Name -ErrorAction SilentlyContinue)) {
         Start-Process -FilePath $FilePath
 	}
 }
 
-function New-Item-IfNotExist
-{
-	param(
+function New-Item-IfNotExist {
+	param (
 		[Parameter(Mandatory=$True)]
 		[string]$Path
 	)
     
-	If (!(Test-Path "$Path"))
-	{
+	If (!(Test-Path "$Path")) {
         $Index = $Path.LastIndexOf("\")
-        If ($Index -eq -1)
-        {
+        If ($Index -eq -1) {
             return $False;
         }
-        if (New-Item-IfNotExist $Path.Substring(0, $Index))
-        {
+        if (New-Item-IfNotExist $Path.Substring(0, $Index)) {
     		New-Item -Path $Path | Out-Null
-        }else
-        {
+        }
+		else {
             return $False;
         }
 	}
     return $True
 }
 
-function Install-App
-{
-	param
-	(
+function Install-App {
+	param (
 		[Parameter(Mandatory=$True)]
 		$FilePath,
 		[Parameter(Mandatory=$False)]
@@ -146,20 +127,18 @@ function Install-App
     if($Wait) { $args.Add('Wait',$true) }
 
 	Write-Host "Installing `'$FilePath`'..."
-	If (!(Is-AppInstalled -MatchAttr $MatchAttr -Regex $Regex))
-	{
+	If (!(Is-AppInstalled -MatchAttr $MatchAttr -Regex $Regex)) {
 		Start-Process @args
 		Write-Host  'Install Finished.';
-	}Else {
+	}
+	Else {
 	    Write-Host 'Installed Already, Skip.';
     }
 }
 
 # Start Process By Passing Path And Wait until it exit.
-function Start-Process-AndWait
-{
-	param
-	(
+function Start-Process-AndWait {
+	param (
 		[Parameter(Mandatory=$True)]
 		$FilePath,
 		[Parameter(Mandatory=$False)]
@@ -177,36 +156,29 @@ function Start-Process-AndWait
     Start-Process @args
 }
 
-function Execute-WhatIf-Command
-{
-	param
-	(
+function Execute-WhatIf-Command {
+	param (
 		[Parameter(Mandatory=$True)]
 		$Command
 	)
 	
 	Write-Host "Press Y to execute: " $Command"..."
     $key = [Console]::Readkey($True);
-    switch ($key.key)
-    {
-        Y 
-        {
+    switch ($key.key) {
+        Y {
             Write-Host "命令执行..."
 		    Invoke-Command -scriptblock $Command
             return $True;
         }
-        default
-		{
+        default {
             Write-Host "取消命令执行"
             return $False;
         }
     }
 }
 
-Function UninstallApps
-{
-	param
-	(
+Function UninstallApps {
+	param (
 		[Parameter(Mandatory=$True)]
 		$apps
 	)
@@ -222,28 +194,26 @@ Function UninstallApps
 	}
 }
 
-Function Pin-App 
-{ 
-    param
-    (
+Function Pin-App  { 
+    param (
             [string]$appname,
             [switch]$unpin
     )
-    try{
-
-        if ($unpin.IsPresent){
+    try {
+        if ($unpin.IsPresent) {
             ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'From "Start" UnPin|Unpin from Start'} | %{$_.DoIt()}
             return "App '$appname' unpinned from Start"
-        }else{
+        }
+		else {
             ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'To "Start" Pin|Pin to Start'} | %{$_.DoIt()}
             return "App '$appname' pinned to Start"
         }
-    }catch{
+    }
+	catch {
         Write-Error "Error Pinning/Unpinning App! (App-Name correct?)"
     }
 }
 
 
-Function End-Process
-{
+Function End-Process {
 }
