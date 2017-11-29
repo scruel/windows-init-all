@@ -13,7 +13,7 @@ RequireAdmin -Path $PSCommandPath -Args $args -WorkingDirectory $PSScriptRoot
 
 # Load all tweak functions
 Import-Module -DisableNameChecking $PSScriptRoot\modules\install_apps_tweaks.psm1
-Import-Module -DisableNameChecking $PSScriptRootPath\modules\apps_tweaks.psm1
+Import-Module -DisableNameChecking $PSScriptRootPath\modules\system_apps_tweaks.psm1
 Import-Module -DisableNameChecking $PSScriptRootPath\modules\system_tweaks.psm1
 Import-Module -DisableNameChecking $PSScriptRootPath\modules\network_tweaks.psm1
 Import-Module -DisableNameChecking $PSScriptRootPath\modules\ui_tweaks.psm1 # Personal Part

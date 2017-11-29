@@ -16,7 +16,7 @@ New-Item-IfNotExist "HKCU:\SOFTWARE\Scruel"
 . "$PSScriptRoot\modules\install_apps.ps1"
 
 # 设定默认优化
-. "$PSScriptRoot\modules\tweak_default.ps1"
+. "$PSScriptRoot\modules\apply_tweaks_default.ps1"
 
 # 设定环境变量
 . "$PSScriptRoot\modules\set_environments.ps1"

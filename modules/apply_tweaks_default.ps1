@@ -157,7 +157,7 @@ If ($args) {
 }
 
 # Load all tweak functions
-Import-Module -DisableNameChecking $PSScriptRoot\apps_tweaks.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\system_apps_tweaks.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\system_tweaks.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\network_tweaks.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\ui_tweaks.psm1
