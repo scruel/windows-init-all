@@ -71,7 +71,7 @@ Function RestoreStartMenu {
 }
 
 
-Function AllOtherActions {
+Function AllRemainActions {
 	Stop-Process -Force -Name Photoshop -ErrorAction SilentlyContinue
 }
 

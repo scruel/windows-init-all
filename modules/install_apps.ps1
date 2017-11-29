@@ -19,15 +19,14 @@ RequireAdmin -Path $PSCommandPath -Args $args -WorkingDirectory $PSScriptRoot
 $tweaks = @(
 	# Setup Apps
 	# Goto file install_apps_tweaks.psm1 and modify the path of your wallpapaer.
-	"SetDefaultWallPaper", 
-	# "SetNppConfigs",
+	# "SetDefaultWallPaper", 
 	# "SetPotPlayer64Configs",
 	# "DisableWeChatAutoRun",
 	# "RestoreTaskBarConfigs",
 	
-	"SetSystemEnvironments",
+	# "SetSystemEnvironments",
     # "RestoreStartMenu",
-    "AllOtherActions",
+    "AllRemainActions",
 	
     "RestartExplorer",
 
@@ -53,21 +52,14 @@ if (!(Is-AppInstalled -Regex "^Office16")) {
 }
 #endregion office install
 Install-App -FilePath "K:\Program\commonUse\PotPlayerSetup64.exe" -ArgumentList "/S" -Regex "^PotPlayer64$"
-Install-App -FilePath "K:\Program\commonUse\npp.Installer.x64.exe" -ArgumentList "/S" -Wait -Regex "^Notepad\+\+$"
-
 Install-App -FilePath "K:\Program\commonUse\typora-setup-x64.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" -Wait -MatchAttr "DisplayName" -Regex "^Typora"
 
 ## some programmer softwares ##
-Install-App -FilePath "K:\Program\programming\GitHubDesktopSetup.exe" -Wait -Regex "^HuorongSysdiag$"
 Install-App -FilePath "K:\Program\programming\jdk-9_windows-x64_bin.exe" -ArgumentList "/s" -Wait -MatchAttr "DisplayName" -Regex "Java.* SE Development Kit"
 Install-App -FilePath "msiexec" -ArgumentList "/i `"K:\Program\programming\Redis-x64-3.2.100.msi`" /norestart /passive /qb" -Wait -MatchAttr "DisplayName" -Regex "^Redis on Windows$"
-Install-App -FilePath "K:\Program\programming\rubyinstaller-2.4.1-2-x64.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" -Wait -MatchAttr "DisplayName" -Regex "^Ruby"
-# Add 'ADDLOCAL=ALL' Parameter will auto add python2 environment to path
 Install-App -FilePath "msiexec" -ArgumentList "/i `"K:\Program\programming\[Python]python2.msi`" /qb /norestart ALLUSERS=1 " -Wait -MatchAttr "DisplayName" -Regex "^Python 2"
 Install-App -FilePath "K:\Program\programming\[Python]python3-amd64.exe" -ArgumentList "/quiet PrependPath=1 InstallAllUsers=1" -Wait -MatchAttr "DisplayName" -Regex "^Python 3"
 Install-App -FilePath "K:\Program\programming\[JAVA IDE]ideaIU.exe" -ArgumentList "/S" -MatchAttr "DisplayName" -Regex "^IntelliJ IDEA 2"
-Install-App -FilePath "K:\Program\programming\[C++ IDE]CLion.exe" -ArgumentList "/S" -Wait -Regex "^CLion"
-Install-App -FilePath "K:\Program\programming\[Python IDE]pycharm.exe" -ArgumentList "/S" -Regex "^PyCharm"
 
 #endregion ##########
 
