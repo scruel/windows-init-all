@@ -594,8 +594,8 @@ Function SetPowerHighPerformance {
 	powercfg /setacvalueindex SCHEME_MIN SUB_BUTTONS PBUTTONACTION 2
 	powercfg /setdcvalueindex SCHEME_MIN SUB_BUTTONS PBUTTONACTION 2
 	# power button now in the start menu
-	New-Item-IfNotExist -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "ShowHibernateOption" -Type DWord -Value 1
+	New-Item-IfNotExist -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "ShowHibernateOption" -Type DWord -Value 1 | Out-Null
 	powercfg /setacvalueindex SCHEME_MIN SUB_BUTTONS UIBUTTON_ACTION 2
 	powercfg /setdcvalueindex SCHEME_MIN SUB_BUTTONS UIBUTTON_ACTION 2
 	# 直流电源(电池) 最小处理器状态

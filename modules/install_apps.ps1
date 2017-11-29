@@ -37,6 +37,9 @@ $tweaks = @(
 Import-Module -DisableNameChecking $PSScriptRoot\system_tweaks.psm1
 SetPowerHighPerformance
 
+# Attributes in variable "$softwares" in "utils.psm1" module can be used to match whether the app is installed or not.
+# For Example, when Typora installed, "DisplayName : Typora version 0.9.25" will be one of the attributes.
+# Following are some examples to install Apps with Install-App function.
 ###############  Default software install  ###############
 #region    App Install 
 
