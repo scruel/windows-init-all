@@ -48,7 +48,7 @@ function Is-AppInstalled {
     )
 	
     If (!$softwares) {
-        Write-Error "Exception: softwares 变量为空"
+        Write-Error "Exception: softwares variable is null."
         exit
     }
     
@@ -166,12 +166,12 @@ function Execute-WhatIf-Command {
     $key = [Console]::Readkey($True);
     switch ($key.key) {
         Y {
-            Write-Host "命令执行..."
+            Write-Host "Executing command..."
 		    Invoke-Command -scriptblock $Command
             return $True;
         }
         default {
-            Write-Host "取消命令执行"
+            Write-Host "Cancel the command execution"
             return $False;
         }
     }

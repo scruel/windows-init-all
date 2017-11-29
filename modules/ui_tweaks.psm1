@@ -21,7 +21,6 @@ Function SetVisualFXPerformance {
 Function SetVisualFXAppearance {
 	Write-Host "Adjusting visual effects for appearance..."
 	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "DragFullWindows" -Type String -Value 1
-	# 加快菜单显示速度
 	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 200
 	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "UserPreferencesMask" -Type Binary -Value ([byte[]](0x9E,0x1E,0x07,0x80,0x12,0x00,0x00,0x00))
 	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop\WindowMetrics" -Name "MinAnimate" -Type String -Value 1
@@ -33,7 +32,7 @@ Function SetVisualFXAppearance {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroPeek" -Type DWord -Value 1
 }
 
-# 标题栏显示主颜色
+# Enable TitleBar Color
 Function EnableTitleBarColor {
 	Write-Host "Enabling TitleBar color..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "ColorPrevalence" -Type DWord -Value 1
@@ -60,7 +59,7 @@ Function ShowTaskView {
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -ErrorAction SilentlyContinue
 }
 
-# 自动从背景选取颜色
+# Enable TitleBar AutoColorization
 Function EnableAutoColorization {
 	Write-Host "Enable AutoColorization..."
 	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "AutoColorization" -Type DWord -Value 1
@@ -248,24 +247,25 @@ Function HideHiddenFiles {
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSuperHidden" -Type DWord -Value 0
 }
 
-# 标题栏颜色优化
+# Set Title Bar Inactive Color
 Function SetTitleBarInactiveColor {
 	Write-Host "Setting TitleBar inactiveColor hotkey..."
-	# 当前窗口颜色-优先
+	# (priority)
 	New-Item-IfNotExist "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent" | Out-Null
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent" -Name "AccentColorMenu" -Type DWord -Value 0xffb46b3a
-	# 当前窗口颜色
+	
+	# The active window color
+	# 当前激活窗口颜色
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "AccentColor" -Type DWord -Value 0xffb46b3a
-	# 未激活窗口显示颜色
+	
+	# The inactive window color
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "AccentColorInactive" -Type DWord -Value 0xffb47841
 }
 
 Function UnSetTitleBarInactiveColor {
 	Write-Host "Unsetting TitleBar inactiveColor hotkey..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent" -Name "AccentColorMenu" -ea SilentlyContinue
-	# 当前窗口颜色
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "AccentColor" -ea SilentlyContinue
-	# 未激活窗口显示颜色
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "AccentColorInactive" -ea SilentlyContinue
 }
 <# deprecated TipbandDesiredVisibility
@@ -316,7 +316,7 @@ Function UnsetMultipleInvokePromptMinimum {
 }
 
 Function SetShellWindowAlpha {
-	# CMD & PowerShell 透明美化
+	# make CMD & PowerShell transparent
 	Set-ItemProperty -Path "HKCU:\Console" -Name "WindowAlpha" -Type DWord -Value "0x000000e0"
 	Set-ItemProperty -Path "HKCU:\Console\%SystemRoot%_SysWOW64_WindowsPowerShell_v1.0_powershell.exe" -Name "WindowAlpha" -Type DWord -Value "0x000000e0"
 	Set-ItemProperty -Path "HKCU:\Console\%SystemRoot%_System32_WindowsPowerShell_v1.0_powershell.exe" -Name "WindowAlpha" -Type DWord -Value "0x000000e0"
@@ -325,13 +325,12 @@ Function SetShellWindowAlpha {
 
 Function SetTaskBarWeek {
 	# 任务栏日期显示“星期几”
-	Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name "sLongDate" -Type String -Value "yyyy'年'M'月'd'日' dddd"
+	# Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name "sLongDate" -Type String -Value "yyyy'年'M'月'd'日' dddd"
 	Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name "sShortDate" -Type String -Value "yyyy/M/d ddd"
 }
 
 Function UnsetTaskBarWeek {
-	# 任务栏日期显示“星期几”
-	Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name "sLongDate" -Type String -Value "yyyy'年'M'月'd'日'"
+	# Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name "sLongDate" -Type String -Value "yyyy'年'M'月'd'日'"
 	Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name "sShortDate" -Type String -Value "yyyy/M/d"
 }
 
