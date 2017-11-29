@@ -250,15 +250,15 @@ Function HideHiddenFiles {
 # Set Title Bar Inactive Color
 Function SetTitleBarInactiveColor {
 	Write-Host "Setting TitleBar inactiveColor hotkey..."
-	# (priority)
+	# The active window color(priority)
 	New-Item-IfNotExist "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent" | Out-Null
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent" -Name "AccentColorMenu" -Type DWord -Value 0xffb46b3a
 	
-	# The active window color
-	# 当前激活窗口颜色
+	# The theme color of current active window
+	# 当前激活窗口主题色
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "AccentColor" -Type DWord -Value 0xffb46b3a
 	
-	# The inactive window color
+	# The theme color of current inactive window
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "AccentColorInactive" -Type DWord -Value 0xffb47841
 }
 
