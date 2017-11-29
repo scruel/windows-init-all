@@ -2,7 +2,7 @@
 # Application Tweaks
 ##########
 
-# 小娜快捷键启动
+# Contana quick active by using hotkey
 Function EnableCortanaHotKey {
 	Write-Host "Enabling Cortana hotkey..."
 	New-Item-IfNotExist "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" | Out-Null
