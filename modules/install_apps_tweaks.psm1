@@ -67,8 +67,20 @@ Function RestoreStartMenu {
 	Write-Host "Restoring StartMenu..."
 	# $env:AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar
 	Remove-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\CloudStore\Store" -Force -Recurse -ea silentlycontinue
+	# use command "export-startlayout –path <path><file name>.xml" to get backup for start menu.
 	Import-StartLayout –LayoutPath "$PSScriptRootPath\resources\startmenu.xml" -MountPath $env:systemdrive\
 }
+
+###########
+# install service
+###########
+
+Function InstallMysql {
+	mysqld -install
+	Stop-Process -Force -Name mysqld -ErrorAction SilentlyContinue
+	Start-Service mysql
+}
+
 
 
 Function AllRemainActions {
