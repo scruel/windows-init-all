@@ -184,6 +184,12 @@ Function UninstallApps {
 	)
 	
 	foreach ($app in $apps) {
+		(Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\InstallAgent\CategoryCache" -ErrorAction SilentlyContinue).PSObject.Properties | ForEach-Object {
+		  If($_.Value -Match $app) {
+			Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\InstallAgent\CategoryCache" -Name $_.Name -ErrorAction SilentlyContinue
+		  }
+		}
+		
 		$package = Get-AppxPackage -Name $app -AllUsers
 		if ($package) {
 		    Write-Host "Trying to uninstall `'$app`'..."
