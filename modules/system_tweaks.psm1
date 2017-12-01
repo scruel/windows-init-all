@@ -327,16 +327,17 @@ Function RemoveENKeyboard {
 	$langs = Get-WinUserLanguageList
 	Set-WinUserLanguageList ($langs | ? {$_.LanguageTag -ne "en-US"}) -Force -ea SilentlyContinue
 }
+
 # Fix the issues that windows automatically adding EN-US keyboard
-Function DisableKeyboardRemoteAdd {
-	Write-Host "Disabling keyboard preload..."
+Function DisableENKeyboardAutoAdd {
+	Write-Host "Disabling en-US keyboard auto Adding..."
 	Remove-Item -Path "HKCU:\Keyboard Layout\Preload" -Force -ea SilentlyContinue
 	Remove-Item -Path "Registry::HKU\.DEFAULT\Keyboard Layout\Preload" -Force -ea SilentlyContinue
-	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout" -Name "IgnoreRemoteKeyboardLayout" -Type DWORD -Value 0
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout" -Name "IgnoreRemoteKeyboardLayout" -Type DWORD -Value 1
 }
 
-Function EnableKeyboardRemoteAdd {
-	Write-Host "Disabling keyboard preload..."
+Function EnableENKeyboardAutoAdd {
+	Write-Host "Enabling en-US keyboard auto Adding..."
 	Remove-Item -Path "HKCU:\Keyboard Layout\Preload" -Force -ea SilentlyContinue
 	Remove-Item -Path "Registry::HKU\.DEFAULT\Keyboard Layout\Preload" -Force -ea SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout" -Name "IgnoreRemoteKeyboardLayout" -ea SilentlyContinue
